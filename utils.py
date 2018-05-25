@@ -1,6 +1,15 @@
 import numpy as np
+import pandas as pd
 from pandas import concat, DataFrame
 
+class Reader(object):
+    def __init__(self, g):
+        self.g = g
+    def read(self, n=0):
+        try:
+            return next(self.g)
+        except StopIteration:
+            return ''
 
 def rnn_data(data, time_steps, labels=False):
     """
@@ -79,4 +88,5 @@ def rnn_minibatch_sequencer(raw_data, batch_size, sequence_size, nb_epochs):
             y = ydata[:, batch * sequence_size:(batch + 1) * sequence_size]
             x = np.roll(x, -epoch, axis=0)  # to continue the text from epoch to epoch (do not reset rnn state!)
             y = np.roll(y, -epoch, axis=0)
-            yield {'x': x, 'y': y}
+
+            yield x, y, epoch

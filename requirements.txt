@@ -4,3 +4,5 @@ pandas
 sklearn
 keras
 tensorflow
+jupyter
+sympy
